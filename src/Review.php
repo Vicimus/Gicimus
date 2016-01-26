@@ -83,7 +83,8 @@ class Review
 
 		foreach($args as $property => $value)
 			if(in_array($property, self::$properties))
-				$instance->$property = $value;
+				$instance->$property = $property == 'time' ?
+					new \DateTime('@'.$value) : $value;
 
 		return $instance;
 	}

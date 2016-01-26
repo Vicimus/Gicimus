@@ -5,6 +5,7 @@ include_once 'vendor/autoload.php';
 use Vicimus\Gicimus\GoogleAPI;
 use Vicimus\Gicimus\Place;
 use Vicimus\Gicimus\PlaceDetails;
+use Vicimus\Gicimus\Review;
 
 class TestGoogleAPI extends PHPUnit_Framework_TestCase
 {
@@ -62,5 +63,14 @@ class TestGoogleAPI extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('Vicimus\Gicimus\Review', $first);
 
+		return $first;
+	}
+
+	/**
+	 * @depends testPlaceDetailsReviews
+	 */
+	public function testReviewTimestamp(Review $review)
+	{
+		$this->assertInstanceOf('DateTime', $review->time);
 	}
 }
