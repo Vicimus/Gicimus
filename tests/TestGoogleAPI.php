@@ -72,5 +72,19 @@ class TestGoogleAPI extends PHPUnit_Framework_TestCase
 	public function testReviewTimestamp(Review $review)
 	{
 		$this->assertInstanceOf('DateTime', $review->time);
+
+		$hash = $review->hash();
+
+		$this->assertInternalType('string', $hash);
+
+		$second = clone($review);
+
+		$secondHash = $second->hash();
+
+		$this->assertEquals($hash, $secondHash);
+
+		$review->text = 'random string';
+
+		$this->assertNotEquals($review->hash(), $second->hash());
 	}
 }

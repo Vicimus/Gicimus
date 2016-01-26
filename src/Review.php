@@ -69,6 +69,25 @@ class Review
 	];
 
 	/**
+	 * Creates a hash to represent the object
+	 *
+	 * @return string
+	 */
+	public function hash()
+	{
+		$string = '';
+		foreach(self::$properties as $property)
+			if($property == 'time')
+				$string .= $this->time->format('U');
+			elseif($property == 'aspects')
+				$string .= json_encode($this->aspects);
+			else
+				$string .= $this->$property;
+
+		return md5($string);
+	}
+
+	/**
 	 * Create an instance of Review by passing an array of properties.
 	 * This is mainly used by the GoogleAPI to convert it's raw
 	 * result data into a more usable collection of Reviews.
