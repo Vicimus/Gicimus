@@ -1,0 +1,59 @@
+<?php
+
+namespace Vicimus\Gicimus;
+
+/**
+ * The PlaceDetails class represents more detailed information about a Place
+ * that has been returned by the Google API after requesting the details.
+ *
+ * @author Jordan Grieve <jgrieve@vicimus.com>
+ */
+class PlaceDetails
+{
+
+	/**
+	 * A collection of reviews for the place
+	 *
+	 * @var mixed[]
+	 */
+	public $reviews = array();
+
+	/**
+	 * This is an array of properties that will be collected during
+	 * the parsing of the place data. All other properties will be ignored.
+	 *
+	 * @var string[]
+	 */
+	protected static $properties = [
+		'reviews',
+	];
+
+	/**
+	 * Create an instance of Place by passing an array of properties.
+	 * This is mainly used by the GoogleAPI to convert it's raw
+	 * result data into a more usable collection of Places.
+	 *
+	 * @param string[] $args An array of properties to turn into a Place
+	 *
+	 * @return Place
+	 */
+	public static function create(array $args)
+	{
+		$instance = new self;
+
+		foreach($args as $property => $value)
+		{
+			if(!in_array($property, self::$properties))
+				continue;
+
+			if($property == 'reviews')
+				foreach($value as $review)
+					$instance->reviews[] = Review::create($review);
+			
+			else
+				$instance->$property = $value;
+		}
+
+		return $instance;
+	}
+}

@@ -1,0 +1,94 @@
+<?php
+
+namespace Vicimus\Gicimus;
+
+use Vicimus\Gicimus\Place;
+
+/**
+ * Google API
+ *
+ * This class is used to interact with the Google API
+ *
+ * @author Jordan Grieve <jgrieve@vicimus.com>
+ */
+class GoogleAPI
+{
+	/**
+	 * The URI to the Google API
+	 *
+	 * @var string
+	 */
+	const API_URI = 'https://maps.googleapis.com/maps/api/';
+
+	/**
+	 * Your Google API key
+	 *
+	 * @var string
+	 */
+	protected $key;
+
+	/**
+	 * The constructor requires your Google API key as it is required
+	 * to interact with the API.
+	 *
+	 * @param string $key 	The API key to use with all requests
+	 */
+	public function __construct($key)
+	{
+		$this->key = $key;
+	}
+
+	/**
+	 * Search for a place using the Google API. You need to find a place
+	 * before you can look up details on the place.
+	 *
+	 * @param string $search 	The name of a place to search for
+	 *
+	 * @return Place[]
+	 */
+	public function place($search)
+	{
+		$path = self::API_URI.'place/textsearch/json?key='.$this->key.
+					'&query='.urlencode($search);
+
+		$results = json_decode(file_get_contents($path), true);
+		if(!$results)
+			return array();
+		
+		$places = [];
+		foreach($results['results'] as $placeData)
+			$places[] = Place::create($placeData);
+		
+		return $places;
+	}
+
+	/**
+	 * Retrieve details on a Place, specified by place_id or by passing
+	 * a place object.
+	 *
+	 * @param integer|Place $placeID 	 The id of a place to search for or
+	 * 									 an instance of Place whos id will be
+	 * 									 used.
+	 *
+	 * @throws \InvalidArgumentException if $place is an object but not a Place
+	 *									 instance
+	 *
+	 * @return PlaceDetails
+	 */
+	public function details($place)
+	{
+		if(is_object($place) && get_class($place) != 'Vicimus\Gicimus\Place')
+			throw new \InvalidArgumentException(
+				'Argument must be Place or place_id. Object of type '.
+				get_class($placeID).' given.');
+
+		$placeID = is_object($place) ? $place->place_id : $place;
+
+		$path = self::API_URI.'place/details/json?key='.$this->key.
+					'&placeid='.$placeID;
+
+		$results = json_decode(file_get_contents($path), true);
+
+		return PlaceDetails::create($results['result']);
+	}
+}
