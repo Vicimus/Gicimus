@@ -32,12 +32,27 @@ class Place
 	public $rating;
 
 	/**
+	 * The place's name
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * The place's icon url
+	 *
+	 * @var string
+	 */
+	public $icon;
+	/**
 	 * This is an array of properties that will be collected during
 	 * the parsing of the place data. All other properties will be ignored.
 	 *
 	 * @var string[]
 	 */
 	protected static $properties = [
+		'name',
+		'icon',
 		'formatted_address',
 		'place_id',
 		'rating'
