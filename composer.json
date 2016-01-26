@@ -1,0 +1,12 @@
+{
+    "name": "vicimus/gicimus",
+    "description": "Package to aid in the interaction with Google Plus",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vicimus\\Gicimus\\": "src/"
+        }
+    }
+}
