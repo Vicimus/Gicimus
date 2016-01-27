@@ -2,6 +2,7 @@
   <testsuites>
     <testsuite name="gicimus">
       <file>tests/TestGoogleAPI.php</file>
+      <file>tests/TestGoogleScraper.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

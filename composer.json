@@ -2,7 +2,8 @@
     "name": "vicimus/gicimus",
     "description": "Package to aid in the interaction with Google Plus",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "paquettg/php-html-parser": "v1.6.8"
     },
     "autoload": {
         "psr-4": {
