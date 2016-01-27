@@ -47,7 +47,7 @@ class GoogleScraper
 		$src = $img->getAttribute('src');
 
 		if(substr($src, 0, 2) == '//')
-			$src = 'https://'.$src;
+			$src = 'https:'.$src;
 
 		return $src;
 	}
